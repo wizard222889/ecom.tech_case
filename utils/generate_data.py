@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import random
 
-class DataGenerator():
+class DataGenerator:
     def __init__(self):
         self.fake = Faker()
     
