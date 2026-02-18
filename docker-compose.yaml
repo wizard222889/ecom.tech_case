@@ -24,5 +24,9 @@ services:
       "
   etl_app:
     build: .
+    volumes: 
+      - ./data:/app/data
     depends_on:
       - minio
+    environment:
+      - S3_ENDPOINT=http://minio:9000

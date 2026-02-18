@@ -3,6 +3,8 @@ from src.store_vitrina import StoreVitrina
 from s3.s3 import ClientS3
 from utils.generate_data import main as generate
 
+S3_ENDPOINT = os.getenv("S3_ENDPOINT", "http://localhost:9000")
+
 def upload_files(files: list, bucket: str) -> None:
     skip_file = [i for i in files if not os.path.exists('data/' + i)]
     if skip_file:
@@ -10,7 +12,7 @@ def upload_files(files: list, bucket: str) -> None:
         generate()
         print('Генерация завершена')
         
-    client = ClientS3("http://localhost:9000",
+    client = ClientS3(S3_ENDPOINT,
                          "user",
                          "password123",
                          bucket)
@@ -21,13 +23,13 @@ def upload_files(files: list, bucket: str) -> None:
 def main():
     try:
         upload_files(['users.parquet', 'orders.parquet', 'stores.parquet'], 'raw-data')
-        vitrina = StoreVitrina("http://localhost:9000",
+        vitrina = StoreVitrina(S3_ENDPOINT,
                                "user",
                                "password123")
         vitrina.load(vitrina.transform())
         print("Данные выгружены")
         
-        client = ClientS3("http://localhost:9000",
+        client = ClientS3(S3_ENDPOINT,
                          "user",
                          "password123",
                          'final-data')
