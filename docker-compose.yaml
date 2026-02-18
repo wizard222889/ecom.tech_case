@@ -22,3 +22,7 @@ services:
       echo 'Бакеты созданы';
       exit 0;
       "
+  etl_app:
+    build: .
+    depends_on:
+      - minio
