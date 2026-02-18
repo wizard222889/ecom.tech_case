@@ -1,4 +1,5 @@
 import boto3
+import os
 from botocore.config import Config
 
 class ClientS3:
@@ -20,3 +21,18 @@ class ClientS3:
             print(f'Файл {path} загружен в бакет {self.bucket}')
         except Exception as e:
             print(f'Произошла ошибка: {e}')
+        
+    def load_files(self, s3_path, local_path) -> None:
+        try:
+            response = self.s3_client.list_objects_v2(Bucket=self.bucket, Prefix=s3_path)
+            if 'Contents' not in response:
+                print(f"В папке {s3_path} пусто")
+                return
+            for obj in response['Contents']:
+                key = obj['Key']
+                if key.endswith('_SUCCESS'):
+                    continue
+                file_name = os.path.basename(key)
+                self.s3_client.download_file(self.bucket, key, os.path.join(local_path, file_name))
+        except Exception as e:
+            print(f'Произошла ошибка при скачивание результа: {e}')
