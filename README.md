@@ -14,7 +14,7 @@ python, minio, pyspark, docker, boto3, faker
    User: ```user``` Password: ```password123```
 
 ### Тесты
-Запуск: ```pytest tests/```
+Запуск: ```python3 -m pytest```
 
 ### Примечание
 Первый запуск в docker может быть долгим, поскольку spark приходится скачивать java-файлы, а также он сам достаточно большой по размеру
