@@ -10,7 +10,8 @@ python, minio, pyspark, docker, boto3, faker
 
 ### Запуск
 1. ```docker-compose up --build```
-2. Зайти на ```http://localhost:9001``` (MinIO Console)
+2. Зайти на ```http://localhost:9001``` (MinIO Console).
+   User: ```user``` Password: ```password123```
 
 ### Тесты
 Запуск: ```pytest tests/```
