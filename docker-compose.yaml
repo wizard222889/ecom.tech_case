@@ -35,5 +35,7 @@ services:
     depends_on:
       minio:
           condition: service_healthy
+      bucket_data:
+          condition: service_completed_successfully
     environment:
       - S3_ENDPOINT=http://minio:9000
