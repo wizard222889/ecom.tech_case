@@ -8,11 +8,17 @@ services:
     environment:
       - MINIO_ROOT_USER=user
       - MINIO_ROOT_PASSWORD=password123
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   
   bucket_data:
     image: "minio/mc:RELEASE.2025-05-21T01-59-54Z"
     depends_on:
-      - minio
+      minio:
+          condition: service_healthy
     entrypoint: >
       /bin/sh -c "
       sleep 10;
@@ -27,6 +33,7 @@ services:
     volumes: 
       - ./data:/app/data
     depends_on:
-      - minio
+      minio:
+          condition: service_healthy
     environment:
       - S3_ENDPOINT=http://minio:9000
